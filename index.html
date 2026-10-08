@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pontual - A Nova Geração em Controle de Ponto e Escalas</title>
+  <meta name="description" content="Plataforma Corporativa de Gestão de Escalas, Ponto Digital GPS e Contratos PJ/CLT. 100% aderente à Portaria 671 MTE." />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="_Pontuall-main/frontend/public/logo-painel.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       PONTUAL OFFICIAL PALETTE & VARIABLES
+       ========================================================================== */
+    :root {
+      --lp-dark-base: #08090C;
+      --lp-dark-surface: #101217;
+      --lp-dark-card: #151821;
+      --lp-vinho-escuro: #640C1E;
+      --lp-vinho: #9F243C;
+      --lp-laranja: #F59242;
+      --lp-laranja-claro: #F89642;
+      --lp-creme: #F9DE97;
+      --lp-creme-suave: #FAF0AC;
+      --lp-cinza-claro: #F8FAFC;
+      --lp-cinza-borda: #E2E8F0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      color: #0F172A;
+      background-color: #FFFFFF;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    ::selection {
+      background-color: var(--lp-laranja);
+      color: #FFFFFF;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       1. HERO SECTION (DARK COM RADIAL GLOW & 3 COLUNAS)
+       ========================================================================== */
+    .hero-section {
+      position: relative;
+      background-color: var(--lp-dark-base);
+      color: #FFFFFF;
+      padding-top: 24px;
+      padding-bottom: 90px;
+      overflow: hidden;
+    }
+
+    /* Radial Glows da paleta Pontual (Vinho e Laranja Solar) */
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 12%;
+      left: 18%;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(circle, rgba(159, 36, 60, 0.35) 0%, rgba(100, 12, 30, 0.15) 50%, transparent 70%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      bottom: 2%;
+      right: 14%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245, 146, 66, 0.25) 0%, rgba(249, 222, 151, 0.12) 45%, transparent 70%);
+      filter: blur(90px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-ambient-corner {
+      position: absolute;
+      top: -120px;
+      right: -80px;
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(159, 36, 60, 0.28) 0%, transparent 65%);
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      margin-bottom: 48px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      z-index: 10;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--lp-vinho), var(--lp-laranja), var(--lp-creme));
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(159, 36, 60, 0.4);
+    }
+
+    .brand-icon-inner {
+      width: 100%;
+      height: 100%;
+      background: #08090C;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-dot-outer {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--lp-creme);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-dot-inner {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lp-laranja);
+    }
+
+    .brand-text-title {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-tag {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(159, 36, 60, 0.6);
+      color: var(--lp-creme);
+      border: 1px solid rgba(245, 146, 66, 0.35);
+    }
+
+    .brand-sub {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .nav-link {
+      transition: color 0.2s ease;
+      position: relative;
+      padding: 4px 0;
+    }
+
+    .nav-link:hover {
+      color: var(--lp-creme);
+    }
+
+    .nav-link.active {
+      color: var(--lp-creme);
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--lp-laranja);
+      border-radius: 2px;
+    }
+
+    /* Botões Padrão */
+    .btn-creme-pill {
+      background: var(--lp-creme);
+      color: #121316;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 12px 26px;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(249, 222, 151, 0.35);
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-creme-pill:hover {
+      background: #FFFFFF;
+      color: var(--lp-vinho-escuro);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(249, 222, 151, 0.5);
+    }
+
+    .btn-dark-pill {
+      background: #121318;
+      color: #FFFFFF;
+      font-weight: 800;
+      border-radius: 9999px;
+      padding: 13px 28px;
+      font-size: 14.5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-dark-pill:hover {
+      background: var(--lp-vinho);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(159, 36, 60, 0.35);
+    }
+
+    /* Grid do Hero (3 Colunas) */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr 0.8fr;
+      gap: 32px;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Coluna Esquerda */
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--lp-creme);
+      width: fit-content;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--lp-laranja);
+      box-shadow: 0 0 8px var(--lp-laranja);
+    }
+
+    .hero-headline {
+      font-size: 54px;
+      font-weight: 900;
+      letter-spacing: -1.8px;
+      line-height: 1.06;
+      color: #FFFFFF;
+    }
+
+    .hero-description {
+      font-size: 16.5px;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 6px;
+    }
+
+    .btn-outline-pill {
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline-pill:hover {
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.06);
+      color: #FFFFFF;
+    }
+
+    .hero-compliance-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.55);
+      font-family: 'JetBrains Mono', monospace;
+      padding-top: 10px;
+    }
+
+    /* Coluna Central: 3D Smartphone Mockup */
+    .hero-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .phone-perspective {
+      perspective: 1200px;
+    }
+
+    .phone-mockup {
+      width: 290px;
+      height: 590px;
+      background: #090A0E;
+      border-radius: 46px;
+      border: 4px solid #2C2E38;
+      box-shadow: 
+        0 25px 65px -15px rgba(0, 0, 0, 0.95),
+        0 0 50px rgba(245, 146, 66, 0.22),
+        0 0 75px rgba(159, 36, 60, 0.26),
+        inset 0 0 2px 2px rgba(255, 255, 255, 0.12);
+      transform: rotateY(-11deg) rotateX(6deg) rotateZ(1deg);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phone-mockup:hover {
+      transform: rotateY(-2deg) rotateX(2deg) rotateZ(0deg) scale(1.02);
+      box-shadow: 
+        0 35px 80px -10px rgba(0, 0, 0, 0.98),
+        0 0 70px rgba(245, 146, 66, 0.32),
+        0 0 95px rgba(159, 36, 60, 0.4);
+    }
+
+    .phone-glare {
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(115deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 30%, transparent 50%);
+      pointer-events: none;
+      z-index: 25;
+    }
+
+    .phone-island {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 20px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+    }
+
+    .phone-camera {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #111422;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      padding: 38px 16px 20px 16px;
+      background: linear-gradient(180deg, #12141A 0%, #0D0E12 100%);
+      color: #FFFFFF;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    .phone-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 14px;
+      padding-top: 2px;
+    }
+
+    .phone-user-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 12px;
+    }
+
+    .phone-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phone-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--lp-laranja);
+    }
+
+    .phone-user-name {
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .phone-user-role {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .phone-user-tag {
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(159, 36, 60, 0.4);
+      color: var(--lp-creme);
+      border: 1px solid rgba(249, 222, 151, 0.3);
+    }
+
+    .phone-clock-box {
+      text-align: center;
+      padding: 6px 0;
+    }
+
+    .phone-clock-sub {
+      font-size: 9.5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--lp-laranja);
+    }
+
+    .phone-clock-time {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin: 2px 0;
+    }
+
+    .phone-clock-date {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+      text-transform: capitalize;
+    }
+
+    .phone-shift-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 11px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 10px 0;
+    }
+
+    .phone-shift-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .phone-shift-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(245, 146, 66, 0.2);
+      color: var(--lp-creme);
+      border: 1px solid rgba(245, 146, 66, 0.35);
+    }
+
+    .phone-shift-loc {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 500;
+    }
+
+    .phone-punch-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 16px;
+      font-weight: 900;
+      font-size: 12px;
+      color: #FFFFFF;
+      background: linear-gradient(90deg, var(--lp-vinho), #B51D3B, var(--lp-laranja));
+      box-shadow: 0 4px 18px rgba(159, 36, 60, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .phone-punch-btn:hover {
+      filter: brightness(1.1);
+      transform: scale(1.02);
+    }
+
+    .phone-punch-btn.punched {
+      background: #10B981 !important;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.45) !important;
+    }
+
+    .phone-punch-btn.validating {
+      background: var(--lp-laranja) !important;
+      animation: pulse 1s infinite alternate;
+    }
+
+    .phone-hours-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: auto;
+    }
+
+    .phone-hours-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 5px;
+    }
+
+    .phone-progress-bar {
+      width: 100%;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .phone-progress-fill {
+      width: 95%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--lp-vinho), var(--lp-laranja), var(--lp-creme));
+      border-radius: 999px;
+    }
+
+    /* Coluna Direita: Métricas e Prova Social */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      padding-left: 16px;
+    }
+
+    .hero-quote-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .hero-quote-text {
+      font-size: 14.5px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.55;
+      font-weight: 500;
+    }
+
+    .hero-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .rating-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--lp-creme);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .rating-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .avatars-overlap {
+      display: flex;
+      margin-left: 4px;
+    }
+
+    .avatar-sm {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #08090C;
+      object-fit: cover;
+      margin-left: -8px;
+    }
+
+    .avatar-sm:first-child {
+      margin-left: 0;
+    }
+
+    .hero-metric-item {
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .hero-metric-number {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      color: #FFFFFF;
+    }
+
+    .hero-metric-number.highlight {
+      color: var(--lp-creme);
+    }
+
+    .hero-metric-label {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.62);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       2. SOCIAL PROOF / PARTNERS STRIP (Fundo Branco)
+       ========================================================================== */
+    .partners-section {
+      background-color: #FFFFFF;
+      padding: 48px 0;
+      border-bottom: 1px solid #F1F5F9;
+      text-align: center;
+    }
+
+    .partners-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748B;
+      margin-bottom: 24px;
+    }
+
+    .partners-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      opacity: 0.75;
+      transition: opacity 0.3s ease;
+    }
+
+    .partners-row:hover {
+      opacity: 1;
+    }
+
+    .partner-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #1E293B;
+      letter-spacing: -0.5px;
+    }
+
+    .partner-pill {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       3. FEATURE SPLIT SECTION ("One app. One banking." Style -> 2x2 Grid)
+       ========================================================================== */
+    .features-section {
+      background-color: var(--lp-cinza-claro);
+      padding: 96px 0;
+    }
+
+    .features-grid-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    .features-left {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .dash-bar {
+      width: 38px;
+      height: 5px;
+      background: var(--lp-vinho);
+      border-radius: 4px;
+    }
+
+    .section-headline {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: #0F172A;
+    }
+
+    .section-description {
+      font-size: 16.5px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .features-2x2-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .feature-card-white {
+      background: #FFFFFF;
+      border: 1px solid #EEF2F6;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-card-white:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+      border-color: #CBD5E1;
+    }
+
+    .feature-card-dark {
+      background: linear-gradient(145deg, #141014 0%, #1A0D14 50%, #200E17 100%);
+      border: 1px solid rgba(159, 36, 60, 0.4);
+      border-radius: 24px;
+      padding: 28px;
+      color: #FFFFFF;
+      box-shadow: 0 12px 35px rgba(100, 12, 30, 0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 220px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card-dark::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 130px;
+      height: 130px;
+      background: radial-gradient(circle, rgba(245, 146, 66, 0.28) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .feature-card-dark:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(100, 12, 30, 0.45);
+      border-color: rgba(245, 146, 66, 0.6);
+    }
+
+    .feature-icon-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .feature-icon-badge.vinho {
+      background: rgba(159, 36, 60, 0.1);
+      color: var(--lp-vinho);
+    }
+
+    .feature-icon-badge.laranja {
+      background: rgba(245, 146, 66, 0.12);
+      color: var(--lp-laranja);
+    }
+
+    .feature-icon-badge.highlight {
+      background: rgba(245, 146, 66, 0.2);
+      color: var(--lp-creme);
+      border: 1px solid rgba(245, 146, 66, 0.35);
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-card-dark .feature-title {
+      color: #FFFFFF;
+    }
+
+    .feature-desc {
+      font-size: 13.5px;
+      color: #64748B;
+      line-height: 1.55;
+    }
+
+    .feature-card-dark .feature-desc {
+      color: #CBD5E1;
+    }
+
+    /* ==========================================================================
+       4. ALTERNATING FEATURE SHOWCASES
+       ========================================================================== */
+    .showcase-section {
+      padding: 96px 0;
+      overflow: hidden;
+    }
+
+    .showcase-section.white-bg {
+      background: #FFFFFF;
+    }
+
+    .showcase-section.gray-bg {
+      background: var(--lp-cinza-claro);
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .showcase-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .showcase-tag {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748B;
+    }
+
+    .showcase-headline {
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+      line-height: 1.15;
+      color: #0F172A;
+    }
+
+    .showcase-description {
+      font-size: 16px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    /* Backdrop com Forma Circular Suave */
+    .showcase-visual {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .showcase-circle {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(249, 222, 151, 0.45) 0%, rgba(245, 146, 66, 0.22) 100%);
+      z-index: 1;
+    }
+
+    .showcase-card-dark {
+      position: relative;
+      width: 330px;
+      background: #14161E;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+      z-index: 2;
+      margin-top: -30px;
+      margin-left: -40px;
+    }
+
+    .showcase-floating-card {
+      position: absolute;
+      bottom: 25px;
+      right: 15px;
+      width: 260px;
+      background: linear-gradient(135deg, var(--lp-creme) 0%, #F5CE74 100%);
+      color: #1A1305;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.22);
+      z-index: 3;
+    }
+
+    /* Gráfico de Barras Mockup */
+    .bar-chart-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 130px;
+      padding-top: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .bar-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .bar-pill {
+      width: 12px;
+      border-radius: 999px;
+    }
+
+    .bar-day {
+      font-size: 9px;
+      font-family: 'JetBrains Mono', monospace;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Lista de Escalas Widget */
+    .shift-widget-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .shift-widget-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .shift-user-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      color: #FFFFFF;
+    }
+
+    /* ==========================================================================
+       5. PRE-FOOTER CTA
+       ========================================================================== */
+    .prefooter-section {
+      background: var(--lp-dark-base);
+      color: #FFFFFF;
+      padding: 80px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .prefooter-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(159, 36, 60, 0.35) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .prefooter-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--lp-vinho), var(--lp-laranja));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px auto;
+      box-shadow: 0 10px 25px rgba(159, 36, 60, 0.4);
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #060709;
+      color: rgba(255, 255, 255, 0.6);
+      padding: 36px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 13px;
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* ==========================================================================
+       RESPONSIVIDADE
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+      }
+      .hero-left {
+        align-items: center;
+        text-align: center;
+      }
+      .hero-headline {
+        font-size: 42px;
+      }
+      .hero-actions {
+        justify-content: center;
+      }
+      .hero-compliance-row {
+        justify-content: center;
+      }
+      .hero-right {
+        padding-left: 0;
+        align-items: center;
+        text-align: center;
+      }
+      .hero-rating-row {
+        justify-content: center;
+      }
+      .phone-mockup {
+        transform: none !important;
+      }
+      .features-grid-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .showcase-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .showcase-content {
+        order: 1;
+      }
+      .showcase-visual {
+        order: 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+      .hero-headline {
+        font-size: 34px;
+      }
+      .features-2x2-grid {
+        grid-template-columns: 1fr;
+      }
+      .showcase-card-dark {
+        width: 270px;
+        margin-left: 0;
+      }
+      .showcase-floating-card {
+        width: 220px;
+        right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       1. HERO SECTION (Dark com Glow, 3 Colunas & Smartphone 3D)
+       ======================================================================== -->
+  <header class="hero-section" id="inicio">
+    <div class="hero-ambient-corner"></div>
+
+    <div class="container">
+      
+      <!-- Top Navbar -->
+      <nav class="navbar">
+        <a href="#inicio" class="brand-logo">
+          <div class="brand-icon">
+            <div class="brand-icon-inner">
+              <div class="brand-dot-outer">
+                <div class="brand-dot-inner"></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="brand-text-title">
+              Pontual <span class="brand-tag">PRO</span>
+            </div>
+            <div class="brand-sub">Gestão de Ponto & Escalas</div>
+          </div>
+        </a>
+
+        <div class="nav-links">
+          <a href="#inicio" class="nav-link active">Início</a>
+          <a href="#recursos" class="nav-link">Recursos</a>
+          <a href="#sobre" class="nav-link">Sobre</a>
+          <a href="#contato" class="nav-link">Contato</a>
+        </div>
+
+        <div>
+          <!-- Botão que abre a aplicação Pontual existente -->
+          <a href="CLIQUE_AQUI_PARA_ABRIR.html" class="btn-creme-pill">
+            <span>Acessar Sistema</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Hero Grid: 3 Colunas -->
+      <div class="hero-grid">
+        
+        <!-- Coluna 1 (Esquerda): Headline, Texto & CTAs -->
+        <div class="hero-left">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            Portaria 671 MTE & Geofencing 100% Homologado
+          </div>
+
+          <h1 class="hero-headline">
+            A nova geração em controle de ponto e escalas.
+          </h1>
+
+          <p class="hero-description">
+            A plataforma corporativa do Pontual oferece uma experiência transparente, segura e sem atritos para registro de ponto digital com GPS, distribuição de escalas em tempo real e fechamento de folha sem inconsistências.
+          </p>
+
+          <div class="hero-actions">
+            <a href="CLIQUE_AQUI_PARA_ABRIR.html" class="btn-creme-pill" style="padding: 14px 32px; font-size: 15px;">
+              <span>Começar Agora</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="#recursos" class="btn-outline-pill">
+              Ver Funcionalidades
+            </a>
+          </div>
+
+          <div class="hero-compliance-row">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F59242" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Criptografia de Ponta</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F9DE97" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span>Conformidade LGPD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna 2 (Centro): 3D Smartphone Mockup com App Pontual -->
+        <div class="hero-center">
+          <div class="phone-perspective">
+            <div class="phone-mockup">
+              <div class="phone-glare"></div>
+              
+              <div class="phone-island">
+                <div class="phone-camera"></div>
+              </div>
+
+              <!-- Tela do App Pontual -->
+              <div class="phone-screen">
+                
+                <div class="phone-top-bar">
+                  <span id="screen-top-time">07:58</span>
+                  <div style="display: flex; align-items: center; gap: 4px;">
+                    <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+                    <span>5G</span>
+                    <span>100%</span>
+                  </div>
+                </div>
+
+                <!-- Perfil do Colaborador -->
+                <div class="phone-user-card">
+                  <div class="phone-user-info">
+                    <img class="phone-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Lucas Silva" />
+                    <div>
+                      <div class="phone-user-name">Lucas Silva</div>
+                      <div class="phone-user-role">Atendimento Geral</div>
+                    </div>
+                  </div>
+                  <span class="phone-user-tag">CLT 40h</span>
+                </div>
+
+                <!-- Relógio Digital Gigante com Segundos em Tempo Real -->
+                <div class="phone-clock-box">
+                  <div class="phone-clock-sub">Horário Oficial Brasília</div>
+                  <div class="phone-clock-time" id="screen-clock">07:58:34</div>
+                  <div class="phone-clock-date" id="screen-date">Quarta-feira, 8 de Outubro</div>
+                </div>
+
+                <!-- Card de Turno de Hoje -->
+                <div class="phone-shift-card">
+                  <div class="phone-shift-header">
+                    <span style="font-size: 9px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; color: rgba(255,255,255,0.5);">Turno de Hoje</span>
+                    <span class="phone-shift-badge" id="shift-status-pill">08:00 - 17:00</span>
+                  </div>
+                  <div class="phone-shift-loc">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F59242" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span style="font-size: 11px;">Sede Matriz - Av. Paulista, 1000</span>
+                  </div>
+                </div>
+
+                <!-- Botão Interativo de Bater Ponto -->
+                <div style="margin: 8px 0;">
+                  <button type="button" class="phone-punch-btn" id="interactive-punch-btn" onclick="triggerPunchSimulation()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span id="punch-btn-text">REGISTRAR PONTO AGORA</span>
+                  </button>
+                  <p style="font-size: 8.5px; text-align: center; color: rgba(255,255,255,0.4); margin-top: 5px; font-family: 'JetBrains Mono', monospace;">
+                    Clique para testar a validação GPS em tempo real
+                  </p>
+                </div>
+
+                <!-- Barra de Carga Horária Semanal -->
+                <div class="phone-hours-card">
+                  <div class="phone-hours-row">
+                    <span>Carga Horária Semanal</span>
+                    <span style="color: var(--lp-creme); font-family: 'JetBrains Mono', monospace;">38h / 40h (95%)</span>
+                  </div>
+                  <div class="phone-progress-bar">
+                    <div class="phone-progress-fill"></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coluna 3 (Direita): Métricas & Avaliações -->
+        <div class="hero-right">
+          
+          <div class="hero-quote-box">
+            <p class="hero-quote-text">
+              É hora de ter precisão e tranquilidade no controle de jornada da sua equipe. Junte-se a milhares de colaboradores e líderes.
+            </p>
+
+            <div class="hero-rating-row">
+              <div class="rating-badge">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#F9DE97" stroke="#F9DE97"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>4.9</span>
+              </div>
+              <span class="rating-sub">Avaliações positivas</span>
+              
+              <div class="avatars-overlap">
+                <img class="avatar-sm" src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&auto=format&fit=crop&q=80" alt="Camila" />
+                <img class="avatar-sm" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=80&auto=format&fit=crop&q=80" alt="Roberto" />
+                <img class="avatar-sm" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&auto=format&fit=crop&q=80" alt="Beatriz" />
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-metric-item">
+            <div class="hero-metric-number">+150k</div>
+            <div class="hero-metric-label">Pontos registrados mensalmente via GPS</div>
+          </div>
+
+          <div class="hero-metric-item">
+            <div class="hero-metric-number highlight">+12.000</div>
+            <div class="hero-metric-label">Escalas gerenciadas sem conflitos de cobertura</div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       2. SOCIAL PROOF / PARTNERS STRIP (Fundo Branco)
+       ======================================================================== -->
+  <section class="partners-section">
+    <div class="container">
+      <div class="partners-title">
+        Mais de 1.500+ empresas e filiais gerenciam suas escalas e pontos com o Pontual
+      </div>
+
+      <div class="partners-row">
+        <div class="partner-brand">
+          <div class="partner-pill" style="background: #0F172A;">E</div>
+          Employer RH
+        </div>
+        <div class="partner-brand">
+          <div class="partner-pill" style="background: var(--lp-vinho);">B</div>
+          BNE Empregos
+        </div>
+        <div class="partner-brand">
+          <div class="partner-pill" style="background: var(--lp-laranja);">M</div>
+          Banco Master
+        </div>
+        <div class="partner-brand">
+          <div class="partner-pill" style="background: #1E293B;">T</div>
+          TechCorp Global
+        </div>
+        <div class="partner-brand">
+          <div class="partner-pill" style="background: var(--lp-vinho-escuro);">I</div>
+          InovaTech Soluções
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       3. FEATURE SPLIT SECTION ("One app. One banking." Style -> 2x2 Grid)
+       ======================================================================== -->
+  <section class="features-section" id="recursos">
+    <div class="container">
+      
+      <div class="features-grid-wrapper">
+        
+        <!-- Lado Esquerdo -->
+        <div class="features-left">
+          <div class="dash-bar"></div>
+
+          <h2 class="section-headline">
+            Um só app.<br>
+            Toda a gestão.
+          </h2>
+
+          <p class="section-description">
+            Nossa plataforma web e mobile oferece um ecossistema seguro e unificado para bater ponto com GPS, distribuir escalas operacionais, aprovar solicitações de folga e acompanhar indicadores de presença da sua equipe.
+          </p>
+
+          <div>
+            <a href="CLIQUE_AQUI_PARA_ABRIR.html" class="btn-dark-pill">
+              <span>Conhecer Todos os Recursos</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Lado Direito: 2x2 Grid de Cards -->
+        <div class="features-2x2-grid">
+          
+          <!-- Card 1: Ponto Digital GPS (Light) -->
+          <div class="feature-card-white">
+            <div class="feature-icon-badge vinho">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">Ponto Digital com GPS</h3>
+              <p class="feature-desc">
+                Registro em segundos com geolocalização por satélite, cálculo de jornada e 100% aderente à Portaria 671 do MTE.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Gestão de Escalas Orbit (Dark / Highlighted) -->
+          <div class="feature-card-dark">
+            <div class="feature-icon-badge highlight">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title" style="display: flex; align-items: center; gap: 8px;">
+                Gestão de Escalas Orbit
+                <span style="font-size: 9px; font-family: 'JetBrains Mono', monospace; background: var(--lp-laranja); color: #000; padding: 2px 6px; border-radius: 999px; font-weight: 900;">NOVO</span>
+              </h3>
+              <p class="feature-desc">
+                Crie e publique turnos semanais ou mensais em minutos. Prevenção inteligente contra choque de horários e furos de cobertura.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Solicitações & Trocas (Light) -->
+          <div class="feature-card-white">
+            <div class="feature-icon-badge laranja">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">Solicitações & Trocas</h3>
+              <p class="feature-desc">
+                Permutas de turnos entre colaboradores e pedidos de folga com fluxo de aprovação transparente para a liderança.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 4: Métricas & Assiduidade (Light) -->
+          <div class="feature-card-white">
+            <div class="feature-icon-badge vinho">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <div>
+              <h3 class="feature-title">Métricas & Assiduidade</h3>
+              <p class="feature-desc">
+                Acompanhe carga horária em tempo real, atestados com CID, faltas justificadas e banco de horas sem surpresas no fim do mês.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       4. ALTERNATING FEATURE SHOWCASE 1 (Gráficos + Ponto Instantâneo)
+       ======================================================================== -->
+  <section class="showcase-section white-bg">
+    <div class="container">
+      <div class="showcase-grid">
+        
+        <!-- Esquerda: Visual com Círculo de Fundo e Widgets Sobrepostos -->
+        <div class="showcase-visual">
+          <div class="showcase-circle"></div>
+
+          <!-- Widget Dark: Gráfico de Horas & Custos (Inspirado no 'My costs' da referência) -->
+          <div class="showcase-card-dark">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+              <span style="font-weight: 800; color: #FFFFFF; font-size: 14px;">Carga Horária Semanal</span>
+              <span style="font-size: 10px; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 999px; color: rgba(255,255,255,0.8); font-family: 'JetBrains Mono', monospace;">
+                Semana Atual ▾
+              </span>
+            </div>
+
+            <div class="bar-chart-row">
+              <div class="bar-col">
+                <div class="bar-pill" style="height: 65px; background: var(--lp-vinho);"></div>
+                <span class="bar-day">Seg 10</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-pill" style="height: 85px; background: var(--lp-laranja);"></div>
+                <span class="bar-day">Ter 11</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-pill" style="height: 98px; background: var(--lp-creme);"></div>
+                <span class="bar-day" style="color: var(--lp-creme); font-weight: 700;">Qua 12</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-pill" style="height: 55px; background: var(--lp-vinho);"></div>
+                <span class="bar-day">Qui 13</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-pill" style="height: 80px; background: var(--lp-laranja);"></div>
+                <span class="bar-day">Sex 14</span>
+              </div>
+              <div class="bar-col">
+                <div class="bar-pill" style="height: 25px; background: rgba(255,255,255,0.2);"></div>
+                <span class="bar-day">Sáb 15</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 12px; font-size: 11px; color: rgba(255,255,255,0.6);">
+              <span>Meta: 40h semanais</span>
+              <span style="color: #34D399; font-weight: 700;">100% Assiduidade</span>
+            </div>
+          </div>
+
+          <!-- Cartão Sobreposto: Cartão de Identificação Digital -->
+          <div class="showcase-floating-card">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <span style="font-size: 10px; font-family: 'JetBrains Mono', monospace; font-weight: 900; letter-spacing: 1px; color: var(--lp-vinho-escuro);">
+                PONTUAL PASS
+              </span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--lp-vinho-escuro)" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div style="font-size: 16px; font-weight: 900; letter-spacing: 2px; font-family: 'JetBrains Mono', monospace; color: #0F172A; margin-bottom: 8px;">
+              •••• •••• •••• 4892
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 10px; font-family: 'JetBrains Mono', monospace; color: #334155;">
+              <span>LUCAS SILVA</span>
+              <span>EXP 12/28</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Direita: Textos & CTA -->
+        <div class="showcase-content">
+          <div class="showcase-tag">Simples, seguro e sem complicações.</div>
+          
+          <h2 class="showcase-headline">
+            Valide presença e registre horas em tempo recorde.
+          </h2>
+
+          <p class="showcase-description">
+            Elimine filas em relógios mecânicos e desconfianças na operação. O colaborador registra seu turno no próprio smartphone com validação de coordenadas via satélite e biometria à prova de fraudes.
+          </p>
+
+          <div>
+            <a href="CLIQUE_AQUI_PARA_ABRIR.html" class="btn-dark-pill">
+              <span>Experimentar Agora</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       5. ALTERNATING FEATURE SHOWCASE 2 (Gestão de Escalas Orbit)
+       ======================================================================== -->
+  <section class="showcase-section gray-bg" id="sobre">
+    <div class="container">
+      <div class="showcase-grid">
+        
+        <!-- Esquerda: Textos & CTA -->
+        <div class="showcase-content">
+          <div class="showcase-tag">Confiável, transparente e integrado.</div>
+          
+          <h2 class="showcase-headline">
+            Assuma o controle total das escalas da sua equipe.
+          </h2>
+
+          <p class="showcase-description">
+            Nossa grade matricial proporciona visão panorâmica de turnos, folgas e plantões. Evite furos de escala, gerencie contratos CLT e prestadores PJ com precisão e mantenha o time conectado via chat interno em tempo real.
+          </p>
+
+          <div style="display: flex; flex-direction: column; gap: 10px; padding: 6px 0;">
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #334155;">
+              <span style="width: 20px; height: 20px; border-radius: 50%; background: var(--lp-vinho); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 11px;">✓</span>
+              <span>Visão Diária, Semanal e Mensal no formato Orbit</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #334155;">
+              <span style="width: 20px; height: 20px; border-radius: 50%; background: var(--lp-vinho); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 11px;">✓</span>
+              <span>Envio e aprovação instantânea de atestados com CID</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 700; color: #334155;">
+              <span style="width: 20px; height: 20px; border-radius: 50%; background: var(--lp-vinho); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 11px;">✓</span>
+              <span>Acompanhamento de franquia de horas para contratos PJ</span>
+            </div>
+          </div>
+
+          <div>
+            <a href="CLIQUE_AQUI_PARA_ABRIR.html" class="btn-dark-pill">
+              <span>Ver Grade Orbit</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Direita: Visual com Círculo e Widget Orbit -->
+        <div class="showcase-visual">
+          <div class="showcase-circle"></div>
+
+          <div class="showcase-card-dark" style="width: 350px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+              <span style="font-weight: 800; color: #FFFFFF; font-size: 14px;">Escalas da Semana</span>
+              <span style="font-size: 10px; background: rgba(159,36,60,0.5); color: var(--lp-creme); padding: 2px 8px; border-radius: 999px; font-family: 'JetBrains Mono', monospace; font-weight: 700;">
+                Publicada
+              </span>
+            </div>
+
+            <div class="shift-widget-list">
+              <div class="shift-widget-row">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="shift-user-circle" style="background: var(--lp-laranja); color: #000;">LS</div>
+                  <div>
+                    <div style="font-size: 12px; font-weight: 800; color: #FFFFFF;">Lucas Silva</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.6);">08:00 - 17:00 • Presença ✓</div>
+                  </div>
+                </div>
+                <span style="font-size: 9px; background: rgba(16,185,129,0.2); color: #6EE7B7; padding: 2px 6px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;">No Posto</span>
+              </div>
+
+              <div class="shift-widget-row">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="shift-user-circle" style="background: var(--lp-vinho);">BS</div>
+                  <div>
+                    <div style="font-size: 12px; font-weight: 800; color: #FFFFFF;">Beatriz Santos</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.6);">09:00 - 18:00 • Suporte</div>
+                  </div>
+                </div>
+                <span style="font-size: 9px; background: rgba(245,158,11,0.2); color: #FCD34D; padding: 2px 6px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;">Aguardando</span>
+              </div>
+
+              <div class="shift-widget-row">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="shift-user-circle" style="background: #334155;">RM</div>
+                  <div>
+                    <div style="font-size: 12px; font-weight: 800; color: #FFFFFF;">Rafael Mendes</div>
+                    <div style="font-size: 10px; color: rgba(255,255,255,0.6);">Folga Compensatória</div>
+                  </div>
+                </div>
+                <span style="font-size: 9px; background: rgba(100,116,139,0.3); color: #CBD5E1; padding: 2px 6px; border-radius: 999px; font-family: 'JetBrains Mono', monospace;">Folga</span>
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 14px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; font-family: 'JetBrains Mono', monospace; color: rgba(255,255,255,0.6);">
+              <span>3 Colaboradores ativos</span>
+              <span style="color: var(--lp-laranja); font-weight: 700;">0 Conflitos</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       6. PRE-FOOTER CTA
+       ======================================================================== -->
+  <section class="prefooter-section" id="contato">
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="prefooter-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+
+      <h2 style="font-size: 40px; font-weight: 900; letter-spacing: -1.2px; margin-bottom: 16px;">
+        Pronto para modernizar a gestão de ponto e escalas da sua empresa?
+      </h2>
+
+      <p style="font-size: 17px; color: rgba(255,255,255,0.72); max-width: 620px; margin: 0 auto 32px auto;">
+        Acesse o Pontual agora mesmo e experimente o controle absoluto de escalas, geolocalização e relatórios em tempo real.
+      </p>
+
+      <div>
+        <a href="CLIQUE_AQUI_PARA_ABRIR.html" class="btn-creme-pill" style="padding: 16px 36px; font-size: 16px;">
+          <span>Acessar o Pontual Agora</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================================
+       7. FOOTER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-row">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 17px; font-weight: 900; color: #FFFFFF;">Pontual</span>
+          <span>•</span>
+          <span>Sistema Corporativo de Gestão de Escalas & Ponto Digital GPS</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 24px; font-weight: 600;">
+          <a href="#inicio" style="color: rgba(255,255,255,0.8);">Início</a>
+          <a href="#recursos" style="color: rgba(255,255,255,0.8);">Recursos</a>
+          <a href="#sobre" style="color: rgba(255,255,255,0.8);">Sobre</a>
+          <a href="CLIQUE_AQUI_PARA_ABRIR.html" style="color: var(--lp-creme);">Portal de Acesso</a>
+        </div>
+
+        <div>
+          © 2026 Pontual. Todos os direitos reservados.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       SCRIPTS: RELÓGIO AO VIVO & SIMULAÇÃO INTERATIVA DE PONTO
+       ======================================================================== -->
+  <script>
+    // Atualiza relógio do celular em tempo real
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('pt-BR');
+      const shortTimeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      
+      const clockEl = document.getElementById('screen-clock');
+      const topTimeEl = document.getElementById('screen-top-time');
+      
+      if (clockEl) clockEl.innerText = timeStr;
+      if (topTimeEl) topTimeEl.innerText = shortTimeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Simulação do Botão de Bater Ponto no Mockup do Celular
+    let punchStatus = 'idle';
+    function triggerPunchSimulation() {
+      const btn = document.getElementById('interactive-punch-btn');
+      const text = document.getElementById('punch-btn-text');
+      const pill = document.getElementById('shift-status-pill');
+
+      if (punchStatus === 'punched') {
+        punchStatus = 'idle';
+        btn.classList.remove('punched');
+        btn.classList.remove('validating');
+        text.innerText = 'REGISTRAR PONTO AGORA';
+        pill.innerText = '08:00 - 17:00';
+        pill.style.background = 'rgba(245, 146, 66, 0.2)';
+        pill.style.color = 'var(--lp-creme)';
+        return;
+      }
+
+      punchStatus = 'validating';
+      btn.classList.add('validating');
+      text.innerText = '📡 VALIDANDO SATÉLITE GPS...';
+
+      setTimeout(() => {
+        punchStatus = 'punched';
+        btn.classList.remove('validating');
+        btn.classList.add('punched');
+        text.innerText = 'PRESENÇA CONFIRMADA ✓';
+        pill.innerText = 'Presença Registrada';
+        pill.style.background = 'rgba(16, 185, 129, 0.2)';
+        pill.style.color = '#6EE7B7';
+      }, 1100);
+    }
+  </script>
+
+</body>
+</html>

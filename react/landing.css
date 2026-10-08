@@ -1,0 +1,354 @@
+/* ==========================================================================
+   PONTUAL LANDING PAGE STYLES
+   Inspirado no layout SecurePay, com identidade visual oficial do Pontual:
+   Paleta: #640C1E (Vinho Escuro), #9F243C (Bordô), #F59242 (Laranja Solar), #F9DE97 (Creme)
+   ========================================================================== */
+
+:root {
+  --lp-dark-base: #08090C;
+  --lp-dark-surface: #101217;
+  --lp-dark-card: #161820;
+  --lp-vinho-escuro: #640C1E;
+  --lp-vinho: #9F243C;
+  --lp-laranja: #F59242;
+  --lp-laranja-claro: #F89642;
+  --lp-creme: #F9DE97;
+  --lp-creme-suave: #FAF0AC;
+  --lp-cinza-claro: #F8FAFC;
+  --lp-cinza-borda: #E2E8F0;
+}
+
+.pontual-landing-wrapper {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  color: #0F172A;
+  background-color: #FFFFFF;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* ==========================================================================
+   1. HERO SECTION DARK & AMBIENT GLOW
+   ========================================================================== */
+.pontual-hero-container {
+  position: relative;
+  background-color: var(--lp-dark-base);
+  color: #FFFFFF;
+  min-height: 850px;
+  overflow: hidden;
+}
+
+/* Radial Glows de fundo Pontual */
+.pontual-hero-container::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 650px;
+  height: 650px;
+  background: radial-gradient(circle, rgba(159, 36, 60, 0.32) 0%, rgba(100, 12, 30, 0.15) 45%, transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pontual-hero-container::after {
+  content: '';
+  position: absolute;
+  bottom: 5%;
+  right: 15%;
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, rgba(245, 146, 66, 0.22) 0%, rgba(249, 222, 151, 0.1) 40%, transparent 70%);
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pontual-hero-ambient-corner {
+  position: absolute;
+  top: -100px;
+  right: -50px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(159, 36, 60, 0.25) 0%, transparent 60%);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   2. 3D PHONE MOCKUP (Central no Hero)
+   ========================================================================== */
+.phone-mockup-perspective {
+  perspective: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phone-mockup-frame {
+  position: relative;
+  width: 290px;
+  height: 590px;
+  background: #090A0E;
+  border-radius: 46px;
+  border: 4px solid #2B2D35;
+  box-shadow: 
+    0 25px 60px -15px rgba(0, 0, 0, 0.9),
+    0 0 45px rgba(245, 146, 66, 0.18),
+    0 0 60px rgba(159, 36, 60, 0.22),
+    inset 0 0 2px 2px rgba(255, 255, 255, 0.12);
+  transform: rotateY(-10deg) rotateX(6deg) rotateZ(1deg);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.phone-mockup-frame:hover {
+  transform: rotateY(-2deg) rotateX(2deg) rotateZ(0deg) scale(1.02);
+  box-shadow: 
+    0 35px 75px -10px rgba(0, 0, 0, 0.95),
+    0 0 65px rgba(245, 146, 66, 0.3),
+    0 0 85px rgba(159, 36, 60, 0.35);
+}
+
+/* Brilho de reflexo de vidro na tela */
+.phone-mockup-glare {
+  position: absolute;
+  top: 0;
+  left: -50%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: 25;
+}
+
+/* Speaker e Ilha Dinâmica */
+.phone-island {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 20px;
+  background: #000000;
+  border-radius: 20px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 12px;
+}
+
+.phone-island-camera {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #111422;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Conteúdo Interno da Tela do Celular */
+.phone-screen-content {
+  width: 100%;
+  height: 100%;
+  padding: 38px 16px 20px 16px;
+  background: linear-gradient(180deg, #12141A 0%, #0D0E12 100%);
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* ==========================================================================
+   3. BOTÕES E COMPONENTES NO ESTILO DA REFERÊNCIA COM CORES PONTUAL
+   ========================================================================== */
+.btn-pontual-primary {
+  background: var(--lp-creme);
+  color: #121316;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 13px 28px;
+  font-size: 14.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 18px rgba(249, 222, 151, 0.35);
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+}
+
+.btn-pontual-primary:hover {
+  background: #FFFFFF;
+  color: var(--lp-vinho-escuro);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(249, 222, 151, 0.5);
+}
+
+.btn-pontual-dark {
+  background: #121318;
+  color: #FFFFFF;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 13px 28px;
+  font-size: 14.5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.btn-pontual-dark:hover {
+  background: var(--lp-vinho);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(159, 36, 60, 0.35);
+}
+
+/* ==========================================================================
+   4. CARDS 2X2 GRID SECTION ("One app. One banking." Style)
+   ========================================================================== */
+.feature-card-light {
+  background: #FFFFFF;
+  border: 1px solid #EEF2F6;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.feature-card-light:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+  border-color: #E2E8F0;
+}
+
+.feature-card-dark {
+  background: linear-gradient(145deg, #141014 0%, #1A0D14 50%, #200E17 100%);
+  border: 1px solid rgba(159, 36, 60, 0.35);
+  border-radius: 24px;
+  padding: 28px;
+  color: #FFFFFF;
+  box-shadow: 0 12px 35px rgba(100, 12, 30, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card-dark::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(245, 146, 66, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.feature-card-dark:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px rgba(100, 12, 30, 0.4);
+  border-color: rgba(245, 146, 66, 0.5);
+}
+
+/* ==========================================================================
+   5. ALTERNATING FEATURE SHOWCASES (Curved Backdrop)
+   ========================================================================== */
+.showcase-curved-backdrop {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.showcase-circle-shape {
+  position: absolute;
+  top: 0;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(249, 222, 151, 0.45) 0%, rgba(245, 146, 66, 0.25) 100%);
+  z-index: 1;
+}
+
+.showcase-widget-dark {
+  position: relative;
+  width: 320px;
+  background: #14161E;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+  margin-top: -30px;
+  margin-left: -40px;
+}
+
+.showcase-overlaid-card {
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  width: 250px;
+  background: linear-gradient(135deg, var(--lp-creme) 0%, #F5CE74 100%);
+  color: #1A1305;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.22);
+  z-index: 3;
+}
+
+/* ==========================================================================
+   6. RESPONSIVIDADE
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .phone-mockup-frame {
+    transform: none !important;
+    width: 270px;
+    height: 550px;
+  }
+  
+  .showcase-curved-backdrop {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .phone-mockup-frame {
+    width: 260px;
+    height: 520px;
+    border-radius: 38px;
+  }
+  
+  .showcase-widget-dark {
+    width: 270px;
+    margin-left: 0;
+  }
+  
+  .showcase-overlaid-card {
+    width: 210px;
+    right: 0px;
+  }
+}

@@ -1,0 +1,23 @@
+====================================================================
+           LANDING PAGE OFICIAL - SISTEMA PONTUAL
+====================================================================
+
+Tudo o que se refere a Landing Page foi reunido nesta pasta para 
+que você possa salvá-la, copiá-la ou movê-la para onde desejar!
+
+COMO ABRIR:
+1. Dê 2 cliques no arquivo:
+   👉 "CLIQUE_AQUI_PARA_ABRIR_LANDING_PAGE.html"
+   (ou no arquivo "index.html")
+
+2. A Landing Page abrirá imediatamente no seu navegador 
+   (Chrome, Edge, etc.) com todos os visuais, cores oficiais do 
+   Pontual, 3D Mockup do celular e relógio em tempo real!
+
+CONTEÚDO DA PASTA:
+- "CLIQUE_AQUI_PARA_ABRIR_LANDING_PAGE.html": Versão independente pronta.
+- "index.html": Mesma versão, ideal para hospedar em qualquer servidor web.
+- Pasta "react/": Código fonte em React + TypeScript (LandingPage.tsx e landing.css).
+- Pasta "assets/": Logotipos oficiais do Pontual.
+- "README.md": Guia detalhado de uso e documentação das cores.
+====================================================================
